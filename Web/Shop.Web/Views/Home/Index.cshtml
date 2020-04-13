@@ -1,10 +1,86 @@
 ﻿@using Shop.Common
 @{
     this.ViewData["Title"] = "Home Page";
+    
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-    <h2 class="display-2">Hello Noobs, this is the beginning of all!</h2>
+    <h2 class="display-4">Hello Noobs, this is the beginning of all!</h2>
+
+    <p>This is <strong>going</strong> to be very cool.You can check out my facebook profile <a href="https://www.facebook.com">here</a>.</p>
+    <ol>
+        <li>One</li>
+        <li>Two</li>
+        <li>Three</li>
+    </ol>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+<div class="product-info">
+    <img src="~/img/Egypt.jpg" />
+    <strong>Tutankamon</strong>
+    <ul class="product-props">
+        <li>Price: 9.99$</li>
+        <li>Artist: Van Gogh</li>
+        <li>Title: </li>
+        <li>Description: Self-Portrait</li>
+    </ul>
+    <button id="buybutton">Buy</button>
+
+</div>
+<br />
+<br />
+<div id="theform">
+    <form>
+        <!-- Poleta za vuvejdane na danni -->
+        <label>Username: </label>
+        <br />
+        <input />
+        <!--Ako iskame speicalen design na dadeno pole. <input style="font-size: 18px; width=: 200px;" /> -->
+        <!--Taka minava na drugiq red <br /> -->
+        <br />
+        <label>Password: </label>
+        <br />
+        <input type="password" />
+        <br />
+        <label>Email: </label>
+        <br />
+        <input type="email" />
+        <br />
+        <label>Subject: </label>
+        <br />
+        <input type="text" />
+        <br />
+        <label>Message: </label>
+        <br />
+        <textarea rows="4"></textarea>
+        <br />
+        <input type="submit" value="Send Message" />
+        <br />
+    </form>
+</div>
+
+
+<div>
+    <div id="LoginToggle">Login</div>
+    <form class="Popup-form">
+        <div>
+            <label>Username</label>
+            <input />
+        </div>
+        <div>
+            <label>Password</label>
+            <input type="password" />
+        </div>
+        <div>
+            <input type="checkbox" />
+            <label>Remember me</label>
+        </div>
+        <div>
+            <input type="submit" value="Login" />
+        </div>
+    </form>
+</div>
+
+

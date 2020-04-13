@@ -1,0 +1,27 @@
+﻿@using Shop.Common
+@{
+    this.ViewData["Title"] = "Home Page";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WORLD OF EGYPT.</title>
+    <link href="~/css/IndexPageStylingDemo.css" rel="stylesheet" />
+</head>
+
+<body>
+    <header>Welcome to Dutch Treat</header>
+    <section>
+        <h2>@ViewBag.Title</h2>
+        <!--RenderBody-to sluji za vzimame samo na body chastta na drugi html, a ostanalata chast e kato ot layout-a -header,footer i t.n.-->
+        @RenderBody()
+    </section>
+    <footer>Copyrights 2020 Dutch Treat EOOD</footer>
+
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/index.js"></script>
+</body>
+
+</html>

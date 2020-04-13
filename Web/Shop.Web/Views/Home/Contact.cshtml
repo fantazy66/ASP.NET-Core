@@ -1,0 +1,43 @@
+﻿@model ContactViewModel
+@{
+    ViewData["Title"] = "Contact";
+}
+<!--Dobavqme samo scriptovete, koito iskame.-->
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+}
+<h2>Contact us</h2>
+
+<form method="post">
+    <!-- asp-for sluji za namapvane na poletata kum viewModel-a i sushto taka dava vuzmojnost pri cukane vurhu imeto na poleto da te vkarva v poleto za pisane.-->
+    <!-- Poleta za vuvejdane na danni -->
+    <!--Shte pokaje samo greshkite, koito sme imali opitvaiki se da izpulnim deistvieto.-->
+    <!--Spanovete pokazvat greshkite za vsqko pole, koito sa v rezultat na validaciite.-->
+    <div asp-validation-summary="ModelOnly"></div>
+    <label asp-for="Name">Username: </label>
+    <br />
+    <input asp-for="Name" />
+    <span asp-validation-for="Name"></span>
+    <!--Ako iskame speicalen design na dadeno pole. <input style="font-size: 18px; width=: 200px;" /> -->
+    <br />
+    <label asp-for="Email">Email: </label>
+    <br />
+    <input type="email" asp-for="Email" />
+    <span asp-validation-for="Email"></span>
+    <br />
+    <label asp-for="Subject">Subject: </label>
+    <br />
+    <input type="text" asp-for="Subject" />
+    <span asp-validation-for="Subject"></span>
+    <br />
+    <label asp-for="Message">Message: </label>
+    <br />
+    <textarea rows="4" asp-for="Message"></textarea>
+    <span asp-validation-for="Message"></span>
+    <br />
+    <input type="submit" value="Send Message" />
+    <br />
+
+    <div>@ViewBag.UserMessage</div>
+</form>

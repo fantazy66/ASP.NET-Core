@@ -1,0 +1,80 @@
+﻿input[type=submit] {
+    width: auto;
+}
+
+input, textarea {
+    font-size: 18px;
+    width: 200px;
+}
+
+label {
+    font-size: 16px,
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#theform {
+    background-color: lightgray;
+}
+
+    #theform input[type=submit] {
+        background-color: forestgreen;
+        color: white;
+    }
+
+.product-props {
+    font-size: large;
+    color: blue;
+}
+
+    .product-props li {
+        list-style-type: upper-latin;
+    }
+
+.product-info {
+    border: 1px solid grey;
+    display: inline-block;
+    padding: 10px 2px;
+    margin: 2px;
+    width: 500px;
+    background-color: lightgray;
+    border-radius: 5px;
+}
+
+    .product-info img {
+        max-width: 300px;
+        margin: 3px;
+        float: left;
+        border: 1px solid black;
+    }
+
+    #LoginToggle {
+    cursor: pointer;
+    color: green;
+    display:inline-block;
+    }
+
+    .Popup-form {
+    padding: 5px;
+    border: 2px black inset;
+    display: inline block;
+    }
+
+    .Popup-form input{
+        width: 200px;
+    }
+        .Popup-form label {
+            width: 150px;
+            display: inline-block;
+        }
+
+    .Popup-form input[type=checkbox], .Popup-form input[type=submit]{
+        width:auto;
+    }
+
+
+    menu li::after{
+        content: ' |';
+    }
