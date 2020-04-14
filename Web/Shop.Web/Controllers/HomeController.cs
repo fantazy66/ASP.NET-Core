@@ -52,7 +52,7 @@
                 // za da izchistim polencatata, kudeto sme vuvejdali.
                 this.ModelState.Clear();
             }
-           
+
             return this.View();
         }
 

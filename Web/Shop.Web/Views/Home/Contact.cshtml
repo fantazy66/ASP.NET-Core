@@ -1,4 +1,5 @@
-﻿@model ContactViewModel
+﻿@using Shop.Common
+@model Shop.Web.ViewModels.ContactViewModel
 @{
     ViewData["Title"] = "Contact";
 }
@@ -7,37 +8,43 @@
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
 }
-<h2>Contact us</h2>
+<h2 class="text-center">Contact us</h2>
+<div class="col-md-6 offset-md-3">
+    <link href="lib/@@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <div class="card card-body bg-light">
+        <form method="post">
+            <!-- asp-for sluji za namapvane na poletata kum viewModel-a i sushto taka dava vuzmojnost pri cukane vurhu imeto na poleto da te vkarva v poleto za pisane.-->
+            <!-- Poleta za vuvejdane na danni -->
+            <!--Shte pokaje samo greshkite, koito sme imali opitvaiki se da izpulnim deistvieto.-->
+            <!--Spanovete pokazvat greshkite za vsqko pole, koito sa v rezultat na validaciite.-->
+            <div asp-validation-summary="ModelOnly"></div>
 
-<form method="post">
-    <!-- asp-for sluji za namapvane na poletata kum viewModel-a i sushto taka dava vuzmojnost pri cukane vurhu imeto na poleto da te vkarva v poleto za pisane.-->
-    <!-- Poleta za vuvejdane na danni -->
-    <!--Shte pokaje samo greshkite, koito sme imali opitvaiki se da izpulnim deistvieto.-->
-    <!--Spanovete pokazvat greshkite za vsqko pole, koito sa v rezultat na validaciite.-->
-    <div asp-validation-summary="ModelOnly"></div>
-    <label asp-for="Name">Username: </label>
-    <br />
-    <input asp-for="Name" />
-    <span asp-validation-for="Name"></span>
-    <!--Ako iskame speicalen design na dadeno pole. <input style="font-size: 18px; width=: 200px;" /> -->
-    <br />
-    <label asp-for="Email">Email: </label>
-    <br />
-    <input type="email" asp-for="Email" />
-    <span asp-validation-for="Email"></span>
-    <br />
-    <label asp-for="Subject">Subject: </label>
-    <br />
-    <input type="text" asp-for="Subject" />
-    <span asp-validation-for="Subject"></span>
-    <br />
-    <label asp-for="Message">Message: </label>
-    <br />
-    <textarea rows="4" asp-for="Message"></textarea>
-    <span asp-validation-for="Message"></span>
-    <br />
-    <input type="submit" value="Send Message" />
-    <br />
+            <div class="form-group">
+                <label asp-for="Name">Username: </label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <!--Ako iskame speicalen design na dadeno pole. <input style="font-size: 18px; width=: 200px;" /> -->
+            <div class="form-group">
+                <label asp-for="Email">Email: </label>
+                <input type="email" asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Subject">Subject: </label>
+                <input type="text" asp-for="Subject" class="form-control" />
+                <span asp-validation-for="Subject" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Message">Message: </label>
+                <textarea rows="4" asp-for="Message" class="form-control"></textarea>
+                <span asp-validation-for="Message" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-envelope"></i> Send Message</button>
+                <div class="text-success">@ViewBag.UserMessage</div>
+            </div>
 
-    <div>@ViewBag.UserMessage</div>
-</form>
+        </form>
+    </div>
+</div>
