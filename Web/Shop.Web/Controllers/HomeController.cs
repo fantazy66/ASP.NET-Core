@@ -1,19 +1,23 @@
 ﻿namespace Shop.Web.Controllers
 {
     using System.Diagnostics;
-
+    using Shop.Data;
     using Shop.Web.ViewModels;
 
     using Microsoft.AspNetCore.Mvc;
     using Shop.Services;
+    using System.Linq;
 
     public class HomeController : BaseController
     {
         private readonly IMailService mailService;
+        private readonly ApplicationDbContext context;
 
-        public HomeController(IMailService mailService)
+        // TODO vkarvame dbcontex-a v constructor-a, za da mojem da polzvame dannite ot bazata v actioni-te. 
+        public HomeController(IMailService mailService, ApplicationDbContext context)
         {
             this.mailService = mailService;
+            this.context = context;
         }
 
         public IActionResult Index()
@@ -61,6 +65,16 @@
             this.ViewBag.Title = "About us";
 
             return this.View();
+        }
+
+        public IActionResult Shop()
+        {
+            var results = this.context.Products
+                .OrderBy(p => p.Category)
+                .ToList();
+
+            // TODO taka shte izpolzvame dannite ot bazata vuv view-to.
+            return this.View(results);
         }
     }
 }

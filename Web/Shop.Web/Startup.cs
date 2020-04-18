@@ -21,7 +21,9 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
     using Shop.Services;
+    using Newtonsoft.Json;
 
     public class Startup
     {
@@ -47,15 +49,40 @@
                         options.CheckConsentNeeded = context => true;
                         options.MinimumSameSitePolicy = SameSiteMode.None;
                     });
+            services.AddControllers().ConfigureApiBehaviorOptions(options =>
+                        {
+                            // Suppress Multipart/form-data inference
 
-            services.AddControllersWithViews(
-                options =>
-                    {
-                        options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-                    });
+                            options.SuppressConsumesConstraintForFormFileParameters = true;
+
+                            // Suppress binding source attributes
+
+                            options.SuppressInferBindingSourcesForParameters = true;
+
+                            // Suppress automatic HTTP 400 errors
+
+                            options.SuppressModelStateInvalidFilter = true;
+
+                            // Suppress problem details responses
+
+                            options.SuppressMapClientErrors = true;
+                        });
+            // TODO po default e vklucheno, no ne raboti post zaqvkite s nego.
+            //services.AddControllersWithViews(
+            //options =>
+            //    {
+            //        options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            //    });
+
             services.AddRazorPages();
 
             services.AddSingleton(this.configuration);
+
+            // Dava ni vuzmojnost da rabotim s public APIs, koito mai nqma da izpolzvam v proekta. Moje da se iztrie.
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest)
+                    .AddNewtonsoftJson(opt =>
+                                       opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+
 
             // Data repositories
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
