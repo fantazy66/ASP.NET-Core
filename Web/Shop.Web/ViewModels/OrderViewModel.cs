@@ -8,6 +8,12 @@ namespace Shop.Web.ViewModels
 {
     public class OrderViewModel
     {
+
+        //public OrderViewModel()
+        //{
+        //    this.Items = new HashSet<OrderItemsViewModel>();
+        //}
+
         public int OrderId { get; set; }
 
         [Required]
@@ -16,6 +22,8 @@ namespace Shop.Web.ViewModels
         [Required]
         [MinLength(4)]
         public string OrderNumber { get; set; }
+
+        public ICollection<OrderItemsViewModel> Items { get; set; }
 
 
     }

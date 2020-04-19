@@ -15,6 +15,9 @@ namespace Shop.Web
             this.CreateMap<Order, OrderViewModel>()
             .ForMember(o => o.OrderId, ex => ex.MapFrom(o => o.Id))
             .ReverseMap();   // reverseMap, za da moje da se mapva i ot viewModel kum class.
+
+            this.CreateMap<OrderItem, OrderItemsViewModel>()
+                .ReverseMap();
         }
     }
 }
