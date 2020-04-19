@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Shop.Data;
 using Shop.Data.Common.Repositories;
 using Shop.Data.Models;
+using Shop.Web.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,12 +21,14 @@ namespace Shop.Web.Controllers
         private readonly IDeletableEntityRepository<Product> repository;
         private readonly ILogger<ProductsController> logger;
         private readonly ApplicationDbContext context;
+        private readonly IMapper mapper;
 
-        public OrdersController(IDeletableEntityRepository<Product> repository, ILogger<ProductsController> logger, ApplicationDbContext context)
+        public OrdersController(IDeletableEntityRepository<Product> repository, ILogger<ProductsController> logger, ApplicationDbContext context, IMapper mapper)
         {
             this.repository = repository;
             this.logger = logger;
             this.context = context;
+            this.mapper = mapper;
         }
 
 
@@ -34,10 +38,11 @@ namespace Shop.Web.Controllers
             try
             {
                 // TODO .include za da mojem da vzemem sudurjanieto na vutreshnata kolekciq ot itemi. theninclude- za detaili na samiq item.
-                return this.Ok(this.context.Orders
+                // TODO automapvane na kolekciqta ot orderi, za da se vizualizira samo id, ordernumber i orderdate.
+                return this.Ok(mapper.Map<IEnumerable<Order>, IEnumerable<OrderViewModel>>(this.context.Orders
                                            .Include(o => o.Items)
                                            .ThenInclude(i => i.Product)
-                                           .ToList());
+                                           .ToList()));
             }
             catch (Exception ex)
             {
@@ -58,8 +63,8 @@ namespace Shop.Web.Controllers
                                    .ThenInclude(i => i.Product)
                                    .FirstOrDefault();
             try
-            {
-                if (order != null) return this.Ok(order);
+            { //TODO automapper-a sluji za da pokazva v site-a order-a kakto e vuv view modela- samo 3 propertyta.
+                if (order != null) return this.Ok(mapper.Map<Order,OrderViewModel>(order));
                 else return this.NotFound();
             }
             catch (Exception ex)
@@ -71,21 +76,29 @@ namespace Shop.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Order> Post(Order order)
-        {            
-            try
+        public IActionResult Post([FromBody]OrderViewModel model)
+        {
+            if (this.ModelState.IsValid)
             {
-                this.context.Add(order);
+                // TODO mapvame naobratno ot viewModel kum classa.
+                var newOrder = this.mapper.Map<OrderViewModel, Order>(model);
+
+                // Dopulnitelen nash validation.
+                if (newOrder.OrderDate == DateTime.MinValue)
+                {
+                    newOrder.OrderDate = DateTime.Now;
+                }
+              
+                this.context.Add(newOrder);
                 this.context.SaveChanges();
-                return this.Created($"/api/orders/{order.Id}", order);
+                // Pak obrushtame mapvaneto, za da moje da vizualizirame ViewModel-a.
+                return this.Created($"/api/orders/{newOrder.Id}", this.mapper.Map<Order, OrderViewModel>(newOrder));
             }
-            catch (Exception ex)
+            else
             {
-                this.logger.LogError($"Failed to save a new order: {ex}");
+                this.logger.LogError($"Failed to save a new order.");
+                return this.BadRequest(this.ModelState);
             }
-            return this.BadRequest("Failed to save new order.");
-
-
         }
     }
 

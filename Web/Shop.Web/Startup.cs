@@ -24,6 +24,7 @@
     using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
     using Shop.Services;
     using Newtonsoft.Json;
+    using AutoMapper;
 
     public class Startup
     {
@@ -49,6 +50,9 @@
                         options.CheckConsentNeeded = context => true;
                         options.MinimumSameSitePolicy = SameSiteMode.None;
                     });
+
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
             services.AddControllers().ConfigureApiBehaviorOptions(options =>
                         {
                             // Suppress Multipart/form-data inference
