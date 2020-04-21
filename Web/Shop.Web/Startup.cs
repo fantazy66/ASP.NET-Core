@@ -21,10 +21,11 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
     using Shop.Services;
     using Newtonsoft.Json;
     using AutoMapper;
+    using Microsoft.IdentityModel.Tokens;
+    using System.Text;
 
     public class Startup
     {
@@ -44,11 +45,25 @@
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
                 .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
+          
             services.Configure<CookiePolicyOptions>(
                 options =>
                     {
                         options.CheckConsentNeeded = context => true;
                         options.MinimumSameSitePolicy = SameSiteMode.None;
+                    });
+
+            // Vidovete authentication, koito shte izpolzvame.
+            services.AddAuthentication()
+                    .AddCookie()
+                    .AddJwtBearer(cfg =>
+                    {
+                        cfg.TokenValidationParameters = new TokenValidationParameters()
+                        {
+                            ValidIssuer = configuration["Tokens:Issuer"],
+                            ValidAudience = configuration["Tokens:Audience"],
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Tokens:Key"]))
+                        };
                     });
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());

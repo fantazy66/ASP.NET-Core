@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -15,31 +18,38 @@ namespace Shop.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] // Nqma da izpolzvame cookies, a jwt. Sega ako ne sme lognati i se opitame da vlezem v shopstranicata, ni dava 401 greshka- unauthorized.
     public class OrdersController : ControllerBase
     {
 
-        private readonly IDeletableEntityRepository<Product> repository;
         private readonly ILogger<ProductsController> logger;
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public OrdersController(IDeletableEntityRepository<Product> repository, ILogger<ProductsController> logger, ApplicationDbContext context, IMapper mapper)
+        public OrdersController(ILogger<ProductsController> logger, ApplicationDbContext context, IMapper mapper, UserManager<ApplicationUser> userManager)
         {
-            this.repository = repository;
+
             this.logger = logger;
             this.context = context;
             this.mapper = mapper;
+            this.userManager = userManager;
         }
 
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
             try
             {
+                var username = User.Identity.Name;
+                var user = await this.userManager.GetUserAsync(this.User);
+
                 // TODO .include za da mojem da vzemem sudurjanieto na vutreshnata kolekciq ot itemi. theninclude- za detaili na samiq item.
                 // TODO automapvane na kolekciqta ot orderi, za da se vizualizira samo id, ordernumber i orderdate.
-                return this.Ok(mapper.Map<IEnumerable<Order>, IEnumerable<OrderViewModel>>(this.context.Orders
+                return this.Ok(mapper.Map<IEnumerable<Order>, IEnumerable<OrderViewModel>>(
+                                       this.context.Orders
+                                           .Where(u => u.ApplicationUser.UserName == user.UserName)
                                            .Include(o => o.Items)
                                            .ThenInclude(i => i.Product)
                                            .ToList()));
@@ -64,7 +74,7 @@ namespace Shop.Web.Controllers
                                    .FirstOrDefault();
             try
             { //TODO automapper-a sluji za da pokazva v site-a order-a kakto e vuv view modela- samo 3 propertyta.
-                if (order != null) return this.Ok(mapper.Map<Order,OrderViewModel>(order));
+                if (order != null) return this.Ok(mapper.Map<Order, OrderViewModel>(order));
                 else return this.NotFound();
             }
             catch (Exception ex)
@@ -76,7 +86,8 @@ namespace Shop.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody]OrderViewModel model)
+        
+        public async Task<IActionResult> Post([FromBody]OrderViewModel model)
         {
             if (this.ModelState.IsValid)
             {
@@ -88,7 +99,14 @@ namespace Shop.Web.Controllers
                 {
                     newOrder.OrderDate = DateTime.Now;
                 }
-              
+
+                // Vajno!! Ne mojem da dobavim user.identity.Name direktno kato suzdavame nova order, koito ima property user. Trqbva da bruknem v db- koeto e userManager i ottam da go vzemem.
+                // User.Identity.Name idva ot jwt security tokenite, koito samo potvurdjavat che tova sme nie, ne moje tqhnoto value da go slagame kato suzdavame nov order.
+                var currentUser = await this.userManager.FindByNameAsync(User.Identity.Name);
+                newOrder.ApplicationUser = currentUser;
+
+
+
                 this.context.Add(newOrder);
                 this.context.SaveChanges();
                 // Pak obrushtame mapvaneto, za da moje da vizualizirame ViewModel-a.

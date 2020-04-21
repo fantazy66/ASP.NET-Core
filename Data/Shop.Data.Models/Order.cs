@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-
+    using System.ComponentModel.DataAnnotations;
     using Shop.Data.Common.Models;
 
     public class Order : BaseDeletableModel<int>
@@ -18,6 +18,11 @@
         public string OrderNumber { get; set; }
 
         public ICollection<OrderItem> Items { get; set; }
+
+        public virtual ApplicationUser ApplicationUser { get; set; }
+
+        [Required]
+        public string ApplicationUserId { get; set; }
 
     }
 }

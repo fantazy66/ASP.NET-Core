@@ -56,7 +56,24 @@
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
 
-            this.ConfigureUserIdentityRelations(builder);
+            builder.Entity<ApplicationUser>(
+            typeBuilder =>
+            {
+                typeBuilder.HasMany(user => user.Orders)
+                    .WithOne(or => or.ApplicationUser)
+                    .HasForeignKey(or => or.ApplicationUserId)
+                    .IsRequired();
+            });
+
+            builder.Entity<Order>(
+            typeBuilder =>
+            {
+                typeBuilder.HasOne(or => or.ApplicationUser)
+                    .WithMany(us => us.Orders)
+                    .HasForeignKey(or => or.ApplicationUserId)
+                    .IsRequired();
+            });
+                this.ConfigureUserIdentityRelations(builder);
 
             EntityIndexesConfiguration.Configure(builder);
 

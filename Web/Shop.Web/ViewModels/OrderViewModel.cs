@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shop.Data.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace Shop.Web.ViewModels
     public class OrderViewModel
     {
 
-        //public OrderViewModel()
-        //{
-        //    this.Items = new HashSet<OrderItemsViewModel>();
-        //}
+        public OrderViewModel()
+        {
+            this.Items = new HashSet<OrderItemsViewModel>();
+        }
 
         public int OrderId { get; set; }
 
@@ -24,7 +25,6 @@ namespace Shop.Web.ViewModels
         public string OrderNumber { get; set; }
 
         public ICollection<OrderItemsViewModel> Items { get; set; }
-
 
     }
 }

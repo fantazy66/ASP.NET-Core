@@ -7,6 +7,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Shop.Services;
     using System.Linq;
+    using Microsoft.AspNetCore.Authorization;
 
     public class HomeController : BaseController
     {
@@ -67,6 +68,7 @@
             return this.View();
         }
 
+        [Authorize]
         public IActionResult Shop()
         {
             var results = this.context.Products

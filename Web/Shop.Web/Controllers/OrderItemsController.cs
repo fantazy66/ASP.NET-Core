@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -13,6 +15,7 @@ using System.Threading.Tasks;
 namespace Shop.Web.Controllers
 {
     [Route("/api/orders/{orderid}/items")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class OrderItemsController : ControllerBase
     {
         private readonly ApplicationDbContext context;
@@ -31,11 +34,13 @@ namespace Shop.Web.Controllers
         [HttpGet]
         public IActionResult Get(int orderId)
         {
+            var username = User.Identity.Name;
+
             var order = this.context
                             .Orders
                             .Include(o=> o.Items)
                             .ThenInclude(i => i.Product)
-                            .Where(o => o.Id == orderId)
+                            .Where(o => o.Id == orderId & o.ApplicationUser.UserName == username)
                             .FirstOrDefault();
 
             if (order != null)
@@ -52,11 +57,13 @@ namespace Shop.Web.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int orderId, int id)
         {
+            var username = User.Identity.Name;
+
             var order = this.context
                                       .Orders
                                       .Include(o => o.Items)
                                       .ThenInclude(i => i.Product)
-                                      .Where(o => o.Id == orderId)
+                                      .Where(o => o.Id == orderId && o.ApplicationUser.UserName== username)
                                       .FirstOrDefault();
 
             if (order != null)

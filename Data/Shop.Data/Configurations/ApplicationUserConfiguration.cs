@@ -28,6 +28,7 @@
                 .HasForeignKey(e => e.UserId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
-        }
+
+                   }
     }
 }
