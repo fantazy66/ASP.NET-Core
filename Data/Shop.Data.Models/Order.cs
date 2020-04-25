@@ -1,27 +1,28 @@
 ﻿namespace Shop.Data.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
     using Shop.Data.Common.Models;
 
     public class Order : BaseDeletableModel<int>
     {
+
         public Order()
         {
-            this.ArtProducts = new HashSet<ArtProduct>();
+            this.Items = new HashSet<OrderItem>();
         }
 
-        public ApplicationUser User { get; set; }
+        public DateTime OrderDate { get; set; }
+
+        public string OrderNumber { get; set; }
+
+        public ICollection<OrderItem> Items { get; set; }
+
+        public virtual ApplicationUser ApplicationUser { get; set; }
 
         [Required]
-        public string UserId { get; set; }
+        public string ApplicationUserId { get; set; }
 
-        [Required]
-        public string DeliveryAddress { get; set; }
-
-        public OrderStatus Status { get; set; }
-
-        public virtual ICollection<ArtProduct> ArtProducts { get; set; }
     }
 }
