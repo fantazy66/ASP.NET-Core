@@ -26,11 +26,15 @@
 
         public DbSet<Setting> Settings { get; set; }
 
-        public DbSet<Product> Products { get; set; }
+        public DbSet<ArtProduct> ArtProducts { get; set; }
 
         public DbSet<Order> Orders { get; set; }
 
-        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Artist> Artists { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<UserProfile> UsersProfile { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 
@@ -56,24 +60,24 @@
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
 
-            builder.Entity<ApplicationUser>(
-            typeBuilder =>
-            {
-                typeBuilder.HasMany(user => user.Orders)
-                    .WithOne(or => or.ApplicationUser)
-                    .HasForeignKey(or => or.ApplicationUserId)
-                    .IsRequired();
-            });
+            //builder.Entity<ApplicationUser>(
+            //typeBuilder =>
+            //{
+            //    typeBuilder.HasMany(user => user.Orders)
+            //        .WithOne(or => or.User)
+            //        .HasForeignKey(or => or.UserId)
+            //        .IsRequired();
+            //});
 
-            builder.Entity<Order>(
-            typeBuilder =>
-            {
-                typeBuilder.HasOne(or => or.ApplicationUser)
-                    .WithMany(us => us.Orders)
-                    .HasForeignKey(or => or.ApplicationUserId)
-                    .IsRequired();
-            });
-                this.ConfigureUserIdentityRelations(builder);
+            //builder.Entity<Order>(
+            //typeBuilder =>
+            //{
+            //    typeBuilder.HasOne(or => or.User)
+            //        .WithMany(us => us.Orders)
+            //        .HasForeignKey(or => or.UserId)
+            //        .IsRequired();
+            //});
+            this.ConfigureUserIdentityRelations(builder);
 
             EntityIndexesConfiguration.Configure(builder);
 
