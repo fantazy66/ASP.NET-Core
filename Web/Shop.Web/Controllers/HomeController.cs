@@ -8,22 +8,35 @@
     using Shop.Services;
     using System.Linq;
     using Microsoft.AspNetCore.Authorization;
+    using Shop.Web.ViewModels.Home;
+    using Shop.Services.Data;
+    using Microsoft.AspNetCore.Http;
 
     public class HomeController : BaseController
     {
         private readonly IMailService mailService;
         private readonly ApplicationDbContext context;
+        private readonly ICategoriesService categoriesService;
 
         // TODO vkarvame dbcontex-a v constructor-a, za da mojem da polzvame dannite ot bazata v actioni-te. 
-        public HomeController(IMailService mailService, ApplicationDbContext context)
+        public HomeController(IMailService mailService, ApplicationDbContext context, ICategoriesService categoriesService)
         {
             this.mailService = mailService;
             this.context = context;
+            this.categoriesService = categoriesService;
         }
+
 
         public IActionResult Index()
         {
-            return this.View();
+            this.HttpContext.Session.SetString("Name", "Marin");
+
+            var viewModel = new IndexViewModel
+            {
+                Categories =
+                     this.categoriesService.GetAll<IndexCategoryViewModel>(),
+            };
+            return this.View(viewModel);
         }
 
         public IActionResult Privacy()
@@ -71,7 +84,7 @@
         [Authorize]
         public IActionResult Shop()
         {
-            var results = this.context.Products
+            var results = this.context.ArtProducts
                 .OrderBy(p => p.Category)
                 .ToList();
 
