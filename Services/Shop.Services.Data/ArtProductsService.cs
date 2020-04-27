@@ -18,7 +18,11 @@ namespace Shop.Services.Data
             this.artProductsRepository = artProductsRepository;
         }
 
-        public async Task<int> CreateAsync(string title, string size, decimal price, string description, DateTime artCreatedDate, string imageUrl, int categoryId, string userId, int artistId)
+        public async Task<int> CreateAsync(
+            string title, string size, decimal price,
+            string description, DateTime artCreatedDate, string imageUrl,
+            int categoryId, string userId,
+            string artistName, string artistNationality, string artistBiography, DateTime artistBirthDate, DateTime artistDeathDate)
         {
             var artProduct = new ArtProduct
             {
@@ -30,7 +34,14 @@ namespace Shop.Services.Data
                 ImageLink = imageUrl,
                 UserId = userId,
                 CategoryId = categoryId,
-                ArtistId = artistId,
+                Artist = new Artist
+                {
+                    Name = artistName,
+                    Nationality = artistNationality,
+                    Biography = artistBiography,
+                    BirthDate = artistBirthDate,
+                    DeathDate = artistDeathDate,
+                },
 
             };
 

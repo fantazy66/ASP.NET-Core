@@ -1,4 +1,5 @@
 ﻿@model Shop.Web.ViewModels.Categories.CategoryViewModel
+@using Shop.Web.ViewModels.ArtProducts;
 @{
     this.ViewData["Title"] = Model.Title;
 }
@@ -8,37 +9,28 @@
     @Model.Description
 </div>
 
-@foreach (var artProduct in Model.ArtProducts)
-{
-    <div class="media-body">
-        <h4 class="media-heading"><a asp-controller="ArtProducts" asp-action="ById" asp-route-id="@artProduct.Id">@artProduct.Title</a></h4>
+<div class="row">
+    @foreach (var artProduct in Model.ArtProducts)
+    {
        
-        <ul class="list-inline list-unstyled text-right">
-            <li class="list-inline-item">
-                <i class="fas fa-user-edit"></i> @artProduct.Title
-            </li>
-            <li class="list-inline-item">
-                <i class="fas fa-user-edit"></i> @artProduct.Size Size
-            </li>
-            <li class="list-inline-item">
-                <i class="fas fa-comment-dots"></i> @artProduct.ImageLink
-            </li>
-            <li class="list-inline-item">
-                <i class="fas fa-comment-dots"></i> @artProduct.ArtistId Artist
-            </li>
-            <li class="list-inline-item">
-                <i class="fas fa-comment-dots"></i> @artProduct.Price Price
-            </li>
-            <li class="list-inline-item">
-                <i class="fas fa-user-edit"></i> @artProduct.UserUserName
-            </li>
-            <li class="list-inline-item">
-                <i class="fas fa-calendar-alt"></i> @artProduct.ArtCreatedDate
-            </li>
-
-        </ul>
-    </div>
-}
+        <div class="col-md-3">
+            <div class="border bg-light rounded p-1">
+                <img src="~/img/Egypt.jpg" class="img-fluid" alt="@artProduct.Title" />
+                <h3>Title: @artProduct.Title</h3>
+                <ul>
+                    <li></li>
+                    <li>Price: @artProduct.Price</li>
+                    <li>Artist: @artProduct.ArtistId</li>
+                    <li>Size: @artProduct.Size</li>
+                    <li>Description: @Html.Raw(artProduct.ArtDescription)</li>
+                    <li>ArtCreatedOn: @artProduct.ArtCreatedDate.Year</li>
+                    <h2 class="media-heading"><a asp-controller="ArtProducts" asp-action="ById" asp-route-id="@artProduct.Id">More Info</a></h2>
+                </ul>
+                <button id="buybutton" class="btn btn-success">Buy</button>
+            </div>
+        </div>
+    }
+</div>
 
 <nav>
     <ul class="pagination justify-content-center">

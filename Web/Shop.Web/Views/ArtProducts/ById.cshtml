@@ -1,0 +1,18 @@
+﻿@model Shop.Web.ViewModels.ArtProducts.ArtProductViewModel
+@{
+    this.ViewData["Title"] = Model.Title;
+}
+
+
+    <div class="product-info">
+        <img src="~/img/Egypt.jpg" />
+        <strong>@Model.Title</strong>
+        <ul class="product-props">
+            <li>Price: @Model.Price</li>
+            <li>Size: @Model.Size</li>
+            <li>Artist: @Model.ArtistName</li>
+            <li>Description: @Html.Raw(Model.SanitizedArtDescription)</li>
+            <li>ArtCreatedDate: @Model.ArtCreatedDate.Year</li>
+        </ul>
+        <button id="buybutton" class="btn btn-success">Buy</button>
+    </div>

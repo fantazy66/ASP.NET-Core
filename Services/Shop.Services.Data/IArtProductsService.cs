@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,7 +8,8 @@ namespace Shop.Services.Data
 {
     public interface IArtProductsService
     {
-        Task<int> CreateAsync(string title,
+        Task<int> CreateAsync(
+            string title,
             string size,
             decimal price,
             string description,
@@ -15,7 +17,11 @@ namespace Shop.Services.Data
             string imageUrl,
             int categoryId,
             string userId,
-            int artistId);
+            string artistName,
+            string artistNationality,
+            string artistBiography,
+            DateTime artistBirthDate,
+            DateTime artistDeathDate);
 
         T GetById<T>(int id);
 
