@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Shop.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,7 +15,7 @@ namespace Shop.Services.Data
             decimal price,
             string description,
             DateTime artCreatedDate,
-            string imageUrl,
+            List<ImageOfProduct>imageUrls,
             int categoryId,
             string userId,
             string artistName,

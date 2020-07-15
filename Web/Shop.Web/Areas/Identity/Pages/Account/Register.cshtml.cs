@@ -48,15 +48,7 @@ namespace Shop.Web.Areas.Identity.Pages.Account
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
         public class InputModel
-        {
-            [Required]
-            [Display(Name = "FirstName")]
-            public string FirstName { get; set; }
-
-            [Required]
-            [Display(Name = "LastName")]
-            public string LastName { get; set; }
-
+        {           
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -104,9 +96,10 @@ namespace Shop.Web.Areas.Identity.Pages.Account
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    if (isAnyUsers) // The first user in the db gets the AdminRole.
+                    if (!isAnyUsers) // The first user in the db gets the AdminRole.
                     {
-                        await _userManager.AddToRoleAsync(user, "Admin");
+                        await _userManager.AddToRoleAsync(user, "Administrator");
+                               
                     }
                     else
                     {

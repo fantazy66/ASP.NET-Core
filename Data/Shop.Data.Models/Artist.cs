@@ -1,10 +1,10 @@
-﻿using Shop.Data.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Shop.Data.Models
+﻿namespace Shop.Data.Models
 {
+    using System;
+
+    using Shop.Data.Common.Models;
+    using Shop.Data.Models.Enum;
+
     public class Artist : BaseDeletableModel<int>
     {
         public string Name { get; set; }
@@ -16,5 +16,7 @@ namespace Shop.Data.Models
         public DateTime BirthDate { get; set; }
 
         public DateTime DeathDate { get; set; }
+
+        public Style Style { get; set; }
     }
 }

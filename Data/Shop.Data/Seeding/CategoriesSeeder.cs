@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
 
     using Shop.Data.Models;
+
     public class CategoriesSeeder : ISeeder
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
@@ -14,14 +15,6 @@
             {
                 return;
             }
-            // Vidovete categorii
-            //Painting = 1,
-            //Photography = 2,
-            //Sculpture = 3,
-            //Drawings = 4,
-            //Prints = 5,
-            //Illustration = 6,
-            //Jewelry = 7,
 
             var categories = new List<(string Name, string ImageUrl)>
             {
@@ -38,8 +31,6 @@
                 await dbContext.Categories.AddAsync(new Category
                 {
                     Name = category.Name,
-                    Description = category.Name,
-                    Title = category.Name,
                     ImageUrl = category.ImageUrl,
                 });
             }

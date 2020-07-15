@@ -20,7 +20,7 @@ namespace Shop.Services.Data
 
         public async Task<int> CreateAsync(
             string title, string size, decimal price,
-            string description, DateTime artCreatedDate, string imageUrl,
+            string description, DateTime artCreatedDate, List<ImageOfProduct>imageUrls,
             int categoryId, string userId,
             string artistName, string artistNationality, string artistBiography, DateTime artistBirthDate, DateTime artistDeathDate)
         {
@@ -31,7 +31,7 @@ namespace Shop.Services.Data
                 Price = price,
                 ArtDescription = description,
                 ArtCreatedDate = artCreatedDate,
-                ImageLink = imageUrl,
+                ImageLinks = imageUrls,
                 UserId = userId,
                 CategoryId = categoryId,
                 Artist = new Artist
@@ -55,6 +55,7 @@ namespace Shop.Services.Data
         {
             var query = this.artProductsRepository
                             .All()
+                            .OrderByDescending(x => x.CreatedOn)
                             .Where(x => x.CategoryId == categoryId)
                             .Skip(skip);
             if (take.HasValue)

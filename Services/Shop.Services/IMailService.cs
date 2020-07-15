@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Shop.Services
+﻿namespace Shop.Services
 {
+    using System.Threading.Tasks;
+
     public interface IMailService
     {
-        void SendMessage(string to, string subject, string body);
+        Task SendEmailAsync(string toEmail, string subject, string content);
     }
 }

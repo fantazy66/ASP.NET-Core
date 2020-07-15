@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Shop.Services
 {
@@ -12,6 +13,11 @@ namespace Shop.Services
         public NullMailService(ILogger<NullMailService> logger)
         {
             this.logger = logger;
+        }
+
+        public Task SendEmailAsync(string toEmail, string subject, string content)
+        {
+            throw new NotImplementedException();
         }
 
         public void SendMessage(string to, string subject, string body)

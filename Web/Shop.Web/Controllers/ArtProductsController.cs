@@ -11,6 +11,10 @@ using Shop.Services.Data;
 using Microsoft.AspNetCore.Identity;
 using Shop.Web.ViewModels.ArtProducts;
 using Microsoft.AspNetCore.Authorization;
+using Shop.Services;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using CloudinaryDotNet;
 
 namespace Shop.Web.Controllers
 {
@@ -20,17 +24,26 @@ namespace Shop.Web.Controllers
         private readonly IArtProductsService artProductsService;
         private readonly ICategoriesService categoriesService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IMailService mailService;
+        private readonly ICloudinaryService cloudinaryService;
+        private readonly Cloudinary cloudinary;
 
         public ArtProductsController(
             ApplicationDbContext context,
             IArtProductsService artProductsService,
             ICategoriesService categoriesService,
-                        UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IMailService mailService,
+            ICloudinaryService cloudinaryService,
+            Cloudinary cloudinary)
         {
             this.context = context;
             this.artProductsService = artProductsService;
             this.categoriesService = categoriesService;
             this.userManager = userManager;
+            this.mailService = mailService;
+            this.cloudinaryService = cloudinaryService;
+            this.cloudinary = cloudinary;
         }
 
         public IActionResult ById(int id)
@@ -65,12 +78,26 @@ namespace Shop.Web.Controllers
                 return this.View(input);
             }
 
+
+            var imageLinks = await this.cloudinaryService.UploadAsync(this.cloudinary, input.ImageLinks);
+            List<ImageOfProduct> productsimages = new List<ImageOfProduct>();
+
+            foreach (var image in imageLinks)
+            {
+                ImageOfProduct imageProduct = new ImageOfProduct();
+                imageProduct.Link = image;
+                productsimages.Add(imageProduct);
+            }
+
             var artProductId = await this.artProductsService.CreateAsync(
-                input.Title, input.Size, input.Price, input.ArtDescription, input.ArtCreatedDate, input.ImageLink,
+                input.Title, input.Size, input.Price, input.ArtDescription, input.ArtCreatedDate, productsimages,
                 input.CategoryId, user.Id, input.Artist.Name, input.Artist.Nationality, input.Artist.Biography,
                 input.Artist.BirthDate, input.Artist.DeathDate);
 
             this.TempData["InfoMessage"] = "ArtProduct has been listed!";
+
+            await this.mailService.SendEmailAsync(user.Email, "hello,there!", "Product Created!");
+
             return this.RedirectToAction(nameof(this.ById), new { id = artProductId });
         }
     }

@@ -1,18 +1,18 @@
 ﻿@model Shop.Web.ViewModels.Categories.CategoryViewModel
 @using Shop.Web.ViewModels.ArtProducts;
 @{
-    this.ViewData["Title"] = Model.Title;
+    this.ViewData["Title"] = Model.Name;
 }
 
-<h1 class="display-3">@Model.Title</h1>
+<h1 class="display-3">@Model.Name</h1>
 <div class="alert alert-info">
-    @Model.Description
+    @Model.Name
 </div>
 
 <div class="row">
     @foreach (var artProduct in Model.ArtProducts)
     {
-       
+
         <div class="col-md-3">
             <div class="border bg-light rounded p-1">
                 <img src="~/img/Egypt.jpg" class="img-fluid" alt="@artProduct.Title" />
@@ -27,9 +27,23 @@
                     <h2 class="media-heading"><a asp-controller="ArtProducts" asp-action="ById" asp-route-id="@artProduct.Id">More Info</a></h2>
                 </ul>
                 <button id="buybutton" class="btn btn-success">Buy</button>
+                <button type="button" class="btn btn-primary" id="complete-order-button">Complete</button>
             </div>
         </div>
     }
+</div>
+
+<div class="modal-body">
+    <form id="order-form" action="/ArtProduct/Order" method="post">
+        <div class="form-group">
+            <label for="quantity" class="col-form-label font-weight-bold">Quantity</label>
+            <input type="number"
+                   class="form-control"
+                   id="quantity"
+                   name="quantity">
+            <input type="hidden" value="@Model.Id" name="artProductId" />
+        </div>
+    </form>
 </div>
 
 <nav>
@@ -45,7 +59,7 @@
             <li class="page-item">
                 <a class="page-link"
                    asp-route="artProductsInCategory"
-                   asp-route-name="@this.Model.Title"
+                   asp-route-name="@this.Model.Name"
                    asp-route-page="@(this.Model.CurrentPage - 1)">Previous</a>
             </li>
         }
@@ -56,7 +70,7 @@
             <li class="page-item @active">
                 <a class="page-link"
                    asp-route="artProductsInCategory"
-                   asp-route-name="@this.Model.Title"
+                   asp-route-name="@this.Model.Name"
                    asp-route-page="@i">@i</a>
             </li>
         }
@@ -72,7 +86,7 @@
             <li class="page-item">
                 <a class="page-link"
                    asp-route="artProductsInCategory"
-                   asp-route-name="@this.Model.Title"
+                   asp-route-name="@this.Model.Name"
                    asp-route-page="@(this.Model.CurrentPage + 1)">Next</a>
             </li>
         }

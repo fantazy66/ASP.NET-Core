@@ -4,7 +4,7 @@
 
     public interface IUserProfileService
     {
-        Task<string> CreateAsync(string firstname, string lastname, string biography, string address, string profilePhoto);
+        Task<string> CreateAsync(string firstname, string lastname, string biography, string profilePhoto);
 
         T GetById<T>(string id);
     }

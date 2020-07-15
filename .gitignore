@@ -357,3 +357,7 @@ MigrationBackup/
 appsettings.Production.json
 *.min.css
 *.min.js
+/Services/Shop.Services.Data/ArtProductsService.cs
+/Services/Shop.Services.Data/CategoriesService.cs
+/Services/Shop.Services.Data/CloudinaryService.cs
+/Services/Shop.Services.Data/IArtProductsService.cs

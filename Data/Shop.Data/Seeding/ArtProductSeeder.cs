@@ -10,32 +10,25 @@ using System.Threading.Tasks;
 
 namespace Shop.Data.Seeding
 {
-    internal class ProductSeeder : ISeeder
+    internal class ArtProductSeeder : ISeeder
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
             // TODO podsigurqva dali ni e suzdadena bazata, predi da seedne dannite.
             dbContext.Database.EnsureCreated();
 
-            // Proverqva dali e true ili false-dali ima nalichni products.
-            if (dbContext.Products.Any())
+            // Proverqva dali e true ili false - dali ima nalichni products.
+            if (dbContext.ArtProducts.Any())
             {
                 return;
             }
 
-            await dbContext.Products.AddAsync(new Product
+            await dbContext.ArtProducts.AddAsync(new ArtProduct
             {
-                Category = "Music",
                 Size = "Big",
                 Price = 10,
                 Title = "PopMusic",
                 ArtDescription = "loveisart",
-                ArtDating = "Mozart",
-                ArtId = "value1",
-                Artist = "Van gogh",
-                ArtistBirthDate = DateTime.Now,
-                ArtistDeathDate = DateTime.UtcNow,
-                ArtistNationality = "Bulgarian",
             });
         }
     }

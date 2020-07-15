@@ -16,14 +16,13 @@
             this.userProfileRepository = userProfileRepository;
         }
 
-        public async Task<string> CreateAsync(string firstname, string lastname, string biography, string address, string profilePhoto)
+        public async Task<string> CreateAsync(string firstname, string lastname, string biography, string profilePhoto)
         {
             var userprofile = new UserProfile
             {
                 FirstName = firstname,
                 LastName = lastname,
                 Biography = biography,
-                Address = address,
                 ProfilePhoto = profilePhoto,
             };
 

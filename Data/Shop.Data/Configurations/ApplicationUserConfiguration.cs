@@ -1,8 +1,9 @@
 ﻿namespace Shop.Data.Configurations
 {
-    using Shop.Data.Models;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+    using Shop.Data.Models;
 
     public class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
     {
@@ -28,7 +29,6 @@
                 .HasForeignKey(e => e.UserId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
-
-                   }
+        }
     }
 }

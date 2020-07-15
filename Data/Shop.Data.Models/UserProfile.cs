@@ -15,8 +15,12 @@
         [MaxLength(200)]
         public string Biography { get; set; }
 
-        public string Address { get; set; }
-
         public string ProfilePhoto { get; set; }
+
+        public string FacebookLink { get; set; }
+
+        public string InstagramLink { get; set; }
+
+        public string WebsiteLink { get; set; }
     }
 }

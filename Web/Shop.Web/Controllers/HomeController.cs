@@ -11,21 +11,39 @@
     using Shop.Web.ViewModels.Home;
     using Shop.Services.Data;
     using Microsoft.AspNetCore.Http;
+    using System.Threading.Tasks;
+    
+    using CloudinaryDotNet;
+        using System.Collections.Generic;
 
     public class HomeController : BaseController
     {
         private readonly IMailService mailService;
         private readonly ApplicationDbContext context;
         private readonly ICategoriesService categoriesService;
+        private readonly Cloudinary cloudinary;
+        private readonly ICloudinaryService cloudinaryService;
+
+
 
         // TODO vkarvame dbcontex-a v constructor-a, za da mojem da polzvame dannite ot bazata v actioni-te. 
-        public HomeController(IMailService mailService, ApplicationDbContext context, ICategoriesService categoriesService)
+        public HomeController(IMailService mailService, ApplicationDbContext context, ICategoriesService categoriesService, Cloudinary cloudinary, ICloudinaryService cloudinaryService)
         {
             this.mailService = mailService;
             this.context = context;
             this.categoriesService = categoriesService;
+            this.cloudinary = cloudinary;
+            this.cloudinaryService = cloudinaryService;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Upload(ICollection<IFormFile> files)
+        {
+
+            await this.cloudinaryService.UploadAsync(this.cloudinary, files);
+
+            return this.Redirect("/");
+        }
 
         public IActionResult Index()
         {
@@ -64,7 +82,7 @@
             if (this.ModelState.IsValid)
             {
                 // send the email
-                this.mailService.SendMessage("apsd@abv.bg", model.Subject, $"From:{model.Name} {model.Email}, Message: {model.Message}");
+                this.mailService.SendEmailAsync(model.Email, model.Subject, model.Message);
                 this.ViewBag.UserMessage = "Mail Sent";
 
                 // za da izchistim polencatata, kudeto sme vuvejdali.

@@ -17,6 +17,11 @@ $(document).ready(function () {
         alert("Buying item!");
     });
 
+    var complete = $('#complete-order-button');
+    complete.on("click", function () {
+        $('#order-form').submit();
+    });
+
     var productsInfo = $(".product-props-li");
     productsInfo.on("click", function () {
         alert("You clicked on: " + $(this).text);

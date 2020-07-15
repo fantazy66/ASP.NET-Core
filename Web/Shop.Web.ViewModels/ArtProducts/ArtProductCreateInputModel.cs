@@ -9,7 +9,12 @@
     using Shop.Services.Mapping;
 
     public class ArtProductCreateInputModel : IMapTo<ArtProduct>
-   {
+    {
+        public ArtProductCreateInputModel()
+        {
+            this.ImageLinks = new HashSet<IFormFile>();
+        }
+
         [Required]
         public string Title { get; set; }
 
@@ -20,7 +25,7 @@
 
         public string ArtDescription { get; set; }
 
-        public string ImageLink { get; set; }
+        public virtual ICollection<IFormFile> ImageLinks { get; set; }
 
         [Required]
         public DateTime ArtCreatedDate { get; set; }

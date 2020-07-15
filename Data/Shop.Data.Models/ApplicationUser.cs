@@ -3,10 +3,10 @@ namespace Shop.Data.Models
 {
     using System;
     using System.Collections.Generic;
-    using Shop.Data.Common.Models;
 
     using Microsoft.AspNetCore.Identity;
 
+    using Shop.Data.Common.Models;
 
     public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
     {
@@ -19,8 +19,9 @@ namespace Shop.Data.Models
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
 
-            this.Orders = new HashSet<Order>();
             this.ArtProducts = new HashSet<ArtProduct>();
+            this.FavouriteArtProducts = new HashSet<ArtProduct>();
+            this.FavouriteArtists = new HashSet<Artist>();
         }
 
         // Audit info
@@ -40,13 +41,18 @@ namespace Shop.Data.Models
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
 
         // Additional info
-
         public UserProfile UserProfile { get; set; }
 
         public string UserProfileId { get; set; }
 
-        public virtual ICollection<Order> Orders { get; set; }
+        public DateTime ActivateSubscription { get; set; }
+
+        public DateTime DeactivateSubscription { get; set; }
 
         public virtual ICollection<ArtProduct> ArtProducts { get; set; }
+
+        public virtual ICollection<ArtProduct> FavouriteArtProducts { get; set; }
+
+        public virtual ICollection<Artist> FavouriteArtists { get; set; }
     }
 }

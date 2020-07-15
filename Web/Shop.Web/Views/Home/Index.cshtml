@@ -87,21 +87,29 @@
             </form>
         </div>
 
+        <a asp-controller="ArtProducts" asp-action="Create" class="btn btn-primary btn-lg">Create ArtProduct</a>
+        <a asp-controller="Order" asp-action="Cart" class="btn-btn-primary btn-lg">View Orders</a>
+
 
         <div class="row">
             @foreach (var category in Model.Categories)
             {<div class="col-md-4 media">
-                    <img src="@category.ImageUrl" width="100" class="mr-3" alt="@category.Title">
+                    <img src="@category.ImageUrl" width="100" class="mr-3" alt="@category.Name">
                     <div class="media-body">
                         <h5 class="mt-0">
                             <a href="@category.Url">
-                                @category.Title
+                                @category.Name
                             </a>
                         </h5>
-                        @category.Description
+
                     </div>
                 </div>}
 
+
+            <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="Upload">
+                <input type="file" name="files" multiple />
+                <button type="submit" value="Upload" />
+            </form>
         </div>
     </div>
 </div>

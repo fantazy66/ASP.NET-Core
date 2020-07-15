@@ -8,6 +8,7 @@
     using Shop.Data.Common.Repositories;
 
     using Microsoft.EntityFrameworkCore;
+    using Shop.Data.Models;
 
     public class EfDeletableEntityRepository<TEntity> : EfRepository<TEntity>, IDeletableEntityRepository<TEntity>
         where TEntity : class, IDeletableEntity
@@ -46,5 +47,6 @@
             entity.DeletedOn = DateTime.UtcNow;
             this.Update(entity);
         }
+
     }
 }
