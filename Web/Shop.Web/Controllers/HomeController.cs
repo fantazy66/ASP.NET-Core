@@ -12,9 +12,11 @@
     using Shop.Services.Data;
     using Microsoft.AspNetCore.Http;
     using System.Threading.Tasks;
-    
+
     using CloudinaryDotNet;
-        using System.Collections.Generic;
+    using System.Collections.Generic;
+    using System;
+    using Microsoft.EntityFrameworkCore;
 
     public class HomeController : BaseController
     {
@@ -23,8 +25,6 @@
         private readonly ICategoriesService categoriesService;
         private readonly Cloudinary cloudinary;
         private readonly ICloudinaryService cloudinaryService;
-
-
 
         // TODO vkarvame dbcontex-a v constructor-a, za da mojem da polzvame dannite ot bazata v actioni-te. 
         public HomeController(IMailService mailService, ApplicationDbContext context, ICategoriesService categoriesService, Cloudinary cloudinary, ICloudinaryService cloudinaryService)
@@ -36,6 +36,25 @@
             this.cloudinaryService = cloudinaryService;
         }
 
+        public async Task<IActionResult> Search(string searchString)
+        {
+
+            var arts = from a in this.context.ArtProducts
+                       select a;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                arts = arts.Where(s => s.Title.Contains(searchString) || s.Artist.Name.Contains(searchString));
+            }
+
+            var artVM = new ArtProductSearchViewModel
+            {
+                ArtProducts = await arts.ToListAsync(),
+            };
+
+            return this.View(artVM);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Upload(ICollection<IFormFile> files)
         {
@@ -44,6 +63,7 @@
 
             return this.Redirect("/");
         }
+
 
         public IActionResult Index()
         {
@@ -109,5 +129,7 @@
             // TODO taka shte izpolzvame dannite ot bazata vuv view-to.
             return this.View(results);
         }
+
+
     }
 }

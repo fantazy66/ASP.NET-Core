@@ -1,0 +1,71 @@
+﻿@model ArtProductSearchViewModel
+
+
+@foreach (var item in Model.ArtProducts)
+{
+    <div class="product-info">
+         <strong> @item.Title</strong>
+         <ul class="product-props">
+             <li>Price: @item.Price</li>
+             <li>Artist: </li>
+             @foreach(var pic in item.ImageLinks)
+             {
+                 <li>Image: pic.Link </li>
+             }
+           
+         </ul>
+         <button id="buybutton" class="btn btn-success">Buy</button>
+     </div>
+
+    <div class="margin-t-5">
+        <section class="artworks">
+            <div class="container">
+                <div class="user-content"></div>
+                <div class="gaps-wrapper gaps-5">
+                    <div class="row with-aside flex-items-nowrap">
+                        <div class="col">
+                            <div class="content">
+                                <div class="overview">
+                                    <div class="gaps-wrapper gaps-6 gaps-sm-7">
+                                        <div class="row row-keep">
+                                            <div class="col col-3 col-lg-4 col-md-6 col-sm-6">
+                                                <div class="item artwork" data-id="4453">
+                                                    <div class="background-blur">
+                                                        <div class="blurred lazy-loaded">
+                                                            <img alt="" data-src="/images/artworks/img-20200512-003428.jpg?quality=85&amp;background=FFFFFFFF&amp;type=webp&amp;resolution=308x308" class="lazy cover loaded" src="/images/artworks/img-20200512-003428.jpg?quality=85&amp;background=FFFFFFFF&amp;type=webp&amp;resolution=308x308" data-was-processed="true">
+                                                        </div>
+                                                        <a href="/en/rabraj-saimy/psychedelic-sea-turtle/" class="block-link block">
+                                                            <picture class="img-fixed-size lazy-loaded" style="max-width:308px;">
+                                                                <span style="padding-top:100%;width:308px;">
+                                                                </span>
+                                                                <img alt="" data-src=@item.ImageLinks class="lazy loaded" src=@item.ImageLinks data-was-processed="true">
+                                                            </picture>
+                                                        </a>
+                                                    </div>
+                                                    <i class="fal fa-heart favorite login">
+                                                    </i><h5 class="margin-t-8">
+                                                        <a class="block-link icon padding-r-6" href="/en/rabraj-saimy/psychedelic-sea-turtle/">Psychedelic Sea Turtle</a>
+                                                    </h5>
+                                                    <div class="bottom">
+                                                        <div class="margin-t-8">
+                                                            <h6 class="mt0">
+                                                                <a href="/en/rabraj-saimy/">
+                                                                    <u class="custom">@item.Title</u>
+                                                                </a>
+                                                            </h6>
+                                                            <h6 class="margin-t-9">$@item.Price,-</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+}

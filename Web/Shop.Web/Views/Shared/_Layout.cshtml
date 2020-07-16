@@ -45,7 +45,15 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="Order" asp-action="Cart">View Orders</a>
                         </li>
-
+                        <li>
+                            <form asp-controller="Home" asp-action="Search" method="get">
+                                <p>
+                                    <input type="search" name="SearchString" placeholder="Search...">
+                                    <input type="submit" class="fal fa-search" />
+                                </p>
+                            </form>
+                            <!-- <form method="get" class="search margin-r-7" action="/en/search/" data-ajax="true" data-params="true"><input type="search" name="term" value="" placeholder="Search..."><button type="submit" class=""><i class="fal fa-search"></i></button></form>-->
+                        </li>
                     </ul>
                 </div>
             </div>

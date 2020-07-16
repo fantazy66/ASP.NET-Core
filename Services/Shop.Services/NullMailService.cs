@@ -1,11 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Shop.Services
+﻿namespace Shop.Services
 {
+    using System;
+    using System.Threading.Tasks;
+
+    using Microsoft.Extensions.Logging;
+
     public class NullMailService : IMailService
     {
         private readonly ILogger<NullMailService> logger;

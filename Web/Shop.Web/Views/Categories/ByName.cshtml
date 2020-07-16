@@ -1,5 +1,5 @@
 ﻿@model Shop.Web.ViewModels.Categories.CategoryViewModel
-@using Shop.Web.ViewModels.ArtProducts;
+@using Shop.Web.ViewModels.ArtProducts; 
 @{
     this.ViewData["Title"] = Model.Name;
 }
@@ -15,7 +15,11 @@
 
         <div class="col-md-3">
             <div class="border bg-light rounded p-1">
-                <img src="~/img/Egypt.jpg" class="img-fluid" alt="@artProduct.Title" />
+                @foreach (var item in artProduct.ImageLinks)
+                {
+                    <img src="@item.Link" class="img-fluid" alt="@artProduct.Title" />
+                }
+
                 <h3>Title: @artProduct.Title</h3>
                 <ul>
                     <li></li>

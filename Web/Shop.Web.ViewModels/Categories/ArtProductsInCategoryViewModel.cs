@@ -1,8 +1,10 @@
 ﻿namespace Shop.Web.ViewModels.Categories
 {
     using System;
+    using System.Collections.Generic;
 
     using Shop.Data.Models;
+
     using Shop.Services.Mapping;
 
     public class ArtProductsInCategoryViewModel : IMapFrom<ArtProduct>
@@ -19,7 +21,7 @@
 
         public string ArtDescription { get; set; }
 
-        public string ImageLink { get; set; }
+        public virtual ICollection<ImageOfProduct> ImageLinks { get; set; }
 
         public int ArtistId { get; set; }
 
