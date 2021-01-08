@@ -15,8 +15,9 @@
 
     using CloudinaryDotNet;
     using System.Collections.Generic;
-    using System;
+
     using Microsoft.EntityFrameworkCore;
+
 
     public class HomeController : BaseController
     {
@@ -25,6 +26,7 @@
         private readonly ICategoriesService categoriesService;
         private readonly Cloudinary cloudinary;
         private readonly ICloudinaryService cloudinaryService;
+
 
         // TODO vkarvame dbcontex-a v constructor-a, za da mojem da polzvame dannite ot bazata v actioni-te. 
         public HomeController(IMailService mailService, ApplicationDbContext context, ICategoriesService categoriesService, Cloudinary cloudinary, ICloudinaryService cloudinaryService)
@@ -38,8 +40,7 @@
 
         public async Task<IActionResult> Search(string searchString)
         {
-
-            var arts = from a in this.context.ArtProducts
+            var arts = from a in this.context.ArtProducts.Include(a => a.Artist).Include(a => a.Category).Include(a=> a.ImageLinks)
                        select a;
 
             if (!string.IsNullOrEmpty(searchString))

@@ -25,6 +25,8 @@
 
         public int ArtistId { get; set; }
 
+        public Artist Artist { get; set; }
+
         public string UserUserName { get; set; }
     }
 }

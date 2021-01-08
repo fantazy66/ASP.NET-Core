@@ -1,21 +1,23 @@
-﻿using Shop.Data.Common.Repositories;
-using Shop.Data.Models;
-using Shop.Services.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Shop.Services.Data
+﻿namespace Shop.Services.Data
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using Shop.Data.Common.Repositories;
+    using Shop.Data.Models;
+    using Shop.Services.Mapping;
+
     public class ArtProductsService : IArtProductsService
     {
         private readonly IDeletableEntityRepository<ArtProduct> artProductsRepository;
+        private readonly IDeletableEntityRepository<Artist> artistsRepository;
 
-        public ArtProductsService(IDeletableEntityRepository<ArtProduct> artProductsRepository)
+        public ArtProductsService(IDeletableEntityRepository<ArtProduct> artProductsRepository, IDeletableEntityRepository<Artist> artistsRepository)
         {
             this.artProductsRepository = artProductsRepository;
+            this.artistsRepository = artistsRepository;
         }
 
         public async Task<int> CreateAsync(
@@ -24,26 +26,47 @@ namespace Shop.Services.Data
             int categoryId, string userId,
             string artistName, string artistNationality, string artistBiography, DateTime artistBirthDate, DateTime artistDeathDate)
         {
-            var artProduct = new ArtProduct
-            {
-                Title = title,
-                Size = size,
-                Price = price,
-                ArtDescription = description,
-                ArtCreatedDate = artCreatedDate,
-                ImageLinks = imageUrls,
-                UserId = userId,
-                CategoryId = categoryId,
-                Artist = new Artist
-                {
-                    Name = artistName,
-                    Nationality = artistNationality,
-                    Biography = artistBiography,
-                    BirthDate = artistBirthDate,
-                    DeathDate = artistDeathDate,
-                },
 
-            };
+            var artist = this.artistsRepository.All().ToList().Find(x => x.Name == artistName);
+            var artProduct = new ArtProduct();
+
+            if (artist == null)
+            {
+                 artProduct = new ArtProduct
+                {
+                    Title = title,
+                    Size = size,
+                    Price = price,
+                    ArtDescription = description,
+                    ArtCreatedDate = artCreatedDate,
+                    ImageLinks = imageUrls,
+                    UserId = userId,
+                    CategoryId = categoryId,
+                    Artist = new Artist
+                    {
+                        Name = artistName,
+                        Nationality = artistNationality,
+                        Biography = artistBiography,
+                        BirthDate = artistBirthDate,
+                        DeathDate = artistDeathDate,
+                    },
+                };
+            }
+            else
+            {
+                artProduct = new ArtProduct
+                {
+                    Title = title,
+                    Size = size,
+                    Price = price,
+                    ArtDescription = description,
+                    ArtCreatedDate = artCreatedDate,
+                    ImageLinks = imageUrls,
+                    UserId = userId,
+                    CategoryId = categoryId,
+                    Artist = artist,
+                };
+            }
 
             await this.artProductsRepository.AddAsync(artProduct);
 

@@ -6,20 +6,31 @@
 }
 
 
+
 <div class="row">
     <div class="col-md-9">
         <div class="text-center">
             <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-            <h2 class="display-4">Hello Noobs, this is the beginning of all!</h2>
-
-            <p>This is <strong>going</strong> to be very cool.You can check out my facebook profile <a href="https://www.facebook.com">here</a>.</p>
-            <ol>
-                <li>One</li>
-                <li>Two</li>
-                <li>Three</li>
-            </ol>
-            <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
         </div>
+
+        <a asp-controller="ArtProducts" asp-action="Create" class="btn btn-primary btn-lg">Create ArtProduct</a>
+
+        <div class="row">
+            @foreach (var category in Model.Categories)
+            {<div class="col-md-4 media">
+                    <img src="@category.ImageUrl" width="100" class="mr-3" alt="@category.Name">
+                    <div class="media-body">
+                        <h5 class="mt-0">
+                            <a href="@category.Url">
+                                @category.Name
+                            </a>
+                        </h5>
+
+                    </div>
+                </div>
+            }
+        </div>
+
 
         <div class="product-info">
             <img src="~/img/Egypt.jpg" />
@@ -87,29 +98,42 @@
             </form>
         </div>
 
-        <a asp-controller="ArtProducts" asp-action="Create" class="btn btn-primary btn-lg">Create ArtProduct</a>
-        <a asp-controller="Order" asp-action="Cart" class="btn-btn-primary btn-lg">View Orders</a>
+        <button class="btn waves-effect waves-light" type="submit" name="action">
+            Submit
+            <i class="material-icons right">send</i>
+        </button>
 
+        <a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">+</i></a>
 
         <div class="row">
-            @foreach (var category in Model.Categories)
-            {<div class="col-md-4 media">
-                    <img src="@category.ImageUrl" width="100" class="mr-3" alt="@category.Name">
-                    <div class="media-body">
-                        <h5 class="mt-0">
-                            <a href="@category.Url">
-                                @category.Name
-                            </a>
-                        </h5>
-
-                    </div>
-                </div>}
-
-
-            <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="Upload">
-                <input type="file" name="files" multiple />
-                <button type="submit" value="Upload" />
-            </form>
+            <div class="input-field col s6">
+                <input value="Alvin" id="first_name2" type="text" class="validate">
+                <label class="active" for="first_name2">First Name</label>
+            </div>
         </div>
+        <script>
+            $(document).ready(function () {
+                M.updateTextFields();
+            });
+        </script>
+
+
+        <form action="#">
+            <div class="file-field input-field">
+                <div class="btn">
+                    <span>File</span>
+                    <input type="file" multiple>
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" placeholder="Upload one or more files">
+                </div>
+            </div>
+        </form>
+
+      
+
+        
+        <div class="filter categories"><h6 class="mt0 margin-b-7">Category</h6><a href="/en/artworks/" class="block-link block h6"><i class="fal fa-circle"></i>All mediums</a><a href="/en/artworks/painting/" class="block-link block h6"><i class="fal fa-circle"></i>Painting</a><a href="/en/artworks/photography/" class="block-link block h6"><i class="fas fa-circle"></i>Photography</a><a href="/en/artworks/sculpture/" class="block-link block h6"><i class="fal fa-circle"></i>Sculpture</a><a href="/en/artworks/prints/" class="block-link block h6"><i class="fal fa-circle"></i>Prints</a><a href="/en/artworks/work-on-paper/" class="block-link block h6"><i class="fal fa-circle"></i>Work on paper</a><a href="/en/artworks/textile/" class="block-link block h6"><i class="fal fa-circle"></i>Textile</a><a href="/en/artworks/new-media/" class="block-link block h6"><i class="fal fa-circle"></i>New Media</a><a href="/en/artworks/design/" class="block-link block h6"><i class="fal fa-circle"></i>Design</a><a href="/en/artworks/jewelry/" class="block-link block h6"><i class="fal fa-circle"></i>Jewelry</a><a href="/en/artworks/illustration/" class="block-link block h6"><i class="fal fa-circle"></i>Illustration</a></div>
     </div>
 </div>
+
